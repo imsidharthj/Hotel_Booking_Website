@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Index</title>
+        <link rel="stylesheet" href="./styles/index.css">
+    </head>
+    <body>
+        <header class="header">
+            <img src="./assests/images/logo.png" alt="Hotel logo" class="logo"/>
+            <h1 class="login-title" onclick="goToLogin()">Login</h1>
+            <input type="text" class="search-input" placeholder="Search" />
+        </header>
+        <main>
+            <!-- Destinations Section -->
+            <section class="destinations">
+                <div class="destination-card" data-city="delhi" onclick="goToCityHotels('delhi')">
+                    <img src="https://media-cdn.tripadvisor.com/media/photo-s/15/33/fe/a2/new-delhi.jpg" alt="Delhi">
+                    <div class="destination-name">Delhi</div>
+                </div>
+                <div class="destination-card" data-city="goa" onclick="goToCityHotels('goa')">
+                    <img src="https://media-cdn.tripadvisor.com/media/photo-s/15/33/fc/f0/goa.jpg" alt="Goa">
+                    <div class="destination-name">Goa</div>
+                </div>
+                <div class="destination-card" data-city="mumbai" onclick="goToCityHotels('mumbai')">
+                    <img src="https://media-cdn.tripadvisor.com/media/photo-s/0f/98/f7/df/charminar.jpg" alt="Mumbai">
+                    <div class="destination-name">Mumbai</div>
+                </div>
+                <div class="destination-card" data-city="kolkata" onclick="goToCityHotels('kolkata')">
+                    <img src="https://media-cdn.tripadvisor.com/media/photo-s/15/33/fe/ac/kolkata-calcutta.jpg" alt="Kolkata">
+                    <div class="destination-name">Kolkata</div>
+                </div>
+                <div class="view-more" id="viewMoreBtn" onclick="toggleMoreDestinations()">View More</div>
+                
+                <!-- Hidden additional destinations -->
+                <div class="destination-card hidden-destination" data-city="chennai" onclick="goToCityHotels('chennai')" style="display: none;">
+                    <img src="https://media-cdn.tripadvisor.com/media/photo-s/15/4d/46/b8/chennai-madras.jpg" alt="Chennai">
+                    <div class="destination-name">Chennai</div>
+                </div>
+                <div class="destination-card hidden-destination" data-city="agra" onclick="goToCityHotels('agra')" style="display: none;">
+                    <img src="https://media-cdn.tripadvisor.com/media/photo-s/15/33/fc/fc/agra.jpg" alt="Agra">
+                    <div class="destination-name">Agra</div>
+                </div>
+                <div class="destination-card hidden-destination" data-city="jaipur" onclick="goToCityHotels('jaipur')" style="display: none;">
+                    <img src="https://media-cdn.tripadvisor.com/media/photo-s/10/a3/3b/8a/screenshot-2017-09-12.jpg" alt="Jaipur">
+                    <div class="destination-name">Jaipur</div>
+                </div>
+                <div class="destination-card hidden-destination" data-city="bengaluru" onclick="goToCityHotels('bengaluru')" style="display: none;">
+                    <img src="https://media-cdn.tripadvisor.com/media/photo-s/0c/d2/2f/7a/palace-from-the-outside.jpg" alt="Bengaluru">
+                    <div class="destination-name">Bengaluru</div>
+                </div>
+            </section>
+
+            <!-- Hotels Section -->
+            <section class="hotels-section">
+                <h2>Featured Hotels</h2>
+                <div class="hotels-container">
+                    <div class="hotel-card" onclick="goToHotelDetail('radisson-blu')">
+                        <img src="https://media-cdn.tripadvisor.com/media/photo-w/17/b3/09/b4/by-the-poolside.jpg" alt="Radisson Blu Hotel">
+                        <div class="hotel-overlay">
+                            <h3>Radisson Blu Hotel</h3>
+                            <p>New Delhi</p>
+                            <div class="rating">
+                                <span class="stars">★★★★☆</span>
+                                <span>4.2</span>
+                            </div>
+                            <div class="price">₹8,500/night</div>
+                        </div>
+                    </div>
+                    <div class="hotel-card" onclick="goToHotelDetail('lalit-delhi')">
+                        <img src="https://media-cdn.tripadvisor.com/media/photo-w/15/06/31/5f/facade.jpg" alt="The Lalit New Delhi">
+                        <div class="hotel-overlay">
+                            <h3>The Lalit New Delhi</h3>
+                            <p>New Delhi</p>
+                            <div class="rating">
+                                <span class="stars">★★★★★</span>
+                                <span>4.5</span>
+                            </div>
+                            <div class="price">₹12,000/night</div>
+                        </div>
+                    </div>
+                    <div class="hotel-card" onclick="goToHotelDetail('taj-palace')">
+                        <img src="https://media-cdn.tripadvisor.com/media/photo-w/1b/4e/9b/11/exterior.jpg" alt="Taj Palace">
+                        <div class="hotel-overlay">
+                            <h3>Taj Palace</h3>
+                            <p>New Delhi</p>
+                            <div class="rating">
+                                <span class="stars">★★★★★</span>
+                                <span>4.7</span>
+                            </div>
+                            <div class="price">₹15,500/night</div>
+                        </div>
+                    </div>
+                    <div class="hotel-card" onclick="goToHotelDetail('goa-resort')">
+                        <img src="https://media-cdn.tripadvisor.com/media/photo-w/15/33/fc/f0/goa.jpg" alt="Beach Resort Goa">
+                        <div class="hotel-overlay">
+                            <h3>Beach Resort Goa</h3>
+                            <p>Goa</p>
+                            <div class="rating">
+                                <span class="stars">★★★★☆</span>
+                                <span>4.3</span>
+                            </div>
+                            <div class="price">₹7,800/night</div>
+                        </div>
+                    </div>
+                    <div class="view-more-hotels" onclick="goToHotelsList()">
+                        <div class="view-more-content">
+                            <h3>View More Hotels</h3>
+                            <p>Discover more amazing properties</p>
+                            <span class="arrow">→</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <footer class="footer">
+            <div class="contact" onclick="goToContact()">Contact Us</div>
+            <div class="social-media">
+                <img src="./assests/images/facebook.png" alt="facebook" class="social-icon">
+                <img src="./assests/images/instagram.png" alt="instagram" class="social-icon">
+                <img src="./assests/images/twitter.png" alt="twitter" class="social-icon">
+            </div>
+            <div class="copyright">© 2023 Hotel Booking</div>
+        </footer>
+
+        <script src="./scripts/index.js"></script>
+        <script src="./scripts/common.js"></script>
+    </body>
+</html>
