@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Radisson Blu Hotel - Hotel Details</title>
+        <link rel="stylesheet" href="./styles/detail.css">
+    </head>
+    <body>
+        <header class="header">
+            <img src="./assests/images/logo.png" alt="Hotel logo" class="logo"/>
+            <h1 class="login-title">Login</h1>
+            <input type="text" class="search-input" placeholder="Search" />
+        </header>
+
+        <nav class="breadcrumb">
+            <a href="index.html">Home</a> > <a href="list.html">Delhi Hotels</a> > <span>Radisson Blu Hotel</span>
+        </nav>
+
+        <main class="main-content">
+            <!-- Hotel Header Section -->
+            <section class="hotel-header">
+                <div class="hotel-basic-info">
+                    <h1 class="hotel-title">Radisson Blu Hotel</h1>
+                    <p class="hotel-location">📍 New Delhi, India</p>
+                    <div class="hotel-rating">
+                        <span class="stars">★★★★☆</span>
+                        <span class="rating-score">4.2</span>
+                        <span class="rating-count">(1,250 reviews)</span>
+                    </div>
+                </div>
+                <div class="hotel-price">
+                    <span class="price-amount">₹8,500</span>
+                    <span class="price-period">per night</span>
+                </div>
+            </section>
+
+            <!-- Hotel Image Gallery -->
+            <section class="image-gallery">
+                <div class="main-image-container">
+                    <img id="mainImage" src="https://media-cdn.tripadvisor.com/media/photo-w/17/b3/09/b4/by-the-poolside.jpg" alt="Radisson Blu Hotel" class="main-image">
+                </div>
+                <div class="thumbnail-gallery">
+                    <img src="https://media-cdn.tripadvisor.com/media/photo-w/17/b3/09/b4/by-the-poolside.jpg" alt="Pool Area" class="thumbnail active" onclick="changeMainImage(this)">
+                    <img src="https://media-cdn.tripadvisor.com/media/photo-o/01/fa/51/70/r-the-spa.jpg" alt="Spa Area" class="thumbnail" onclick="changeMainImage(this)">
+                    <img src="https://media-cdn.tripadvisor.com/media/photo-w/0e/b2/64/3f/radisson-blu-plaza-delhi.jpg" alt="Hotel Exterior" class="thumbnail" onclick="changeMainImage(this)">
+                    <img src="https://media-cdn.tripadvisor.com/media/photo-w/15/06/31/5f/facade.jpg" alt="Hotel Lobby" class="thumbnail" onclick="changeMainImage(this)">
+                </div>
+            </section>
+
+            <div class="content-wrapper">
+                <!-- Hotel Information -->
+                <div class="hotel-details">
+                    <!-- Description Section -->
+                    <section class="description-section">
+                        <h2>About This Hotel</h2>
+                        <p class="hotel-description">
+                            Experience luxury and comfort at the Radisson Blu Hotel in New Delhi. Located in the heart of the city, 
+                            this premium hotel offers world-class amenities and exceptional service. Whether you're traveling for business 
+                            or leisure, our elegant rooms and suites provide the perfect retreat after a day of exploring the vibrant 
+                            capital city. Enjoy our stunning rooftop pool, rejuvenating spa services, and multiple dining options 
+                            featuring both local and international cuisine.
+                        </p>
+                    </section>
+
+                    <!-- Amenities Section -->
+                    <section class="amenities-section">
+                        <h2>Hotel Amenities</h2>
+                        <div class="amenities-grid">
+                            <div class="amenity-item">
+                                <span class="amenity-icon">🏊‍♂️</span>
+                                <span class="amenity-text">Swimming Pool</span>
+                            </div>
+                            <div class="amenity-item">
+                                <span class="amenity-icon">📶</span>
+                                <span class="amenity-text">Free WiFi</span>
+                            </div>
+                            <div class="amenity-item">
+                                <span class="amenity-icon">🧘‍♀️</span>
+                                <span class="amenity-text">Spa & Wellness</span>
+                            </div>
+                            <div class="amenity-item">
+                                <span class="amenity-icon">🍽️</span>
+                                <span class="amenity-text">Restaurant</span>
+                            </div>
+                            <div class="amenity-item">
+                                <span class="amenity-icon">🚗</span>
+                                <span class="amenity-text">Parking</span>
+                            </div>
+                            <div class="amenity-item">
+                                <span class="amenity-icon">💼</span>
+                                <span class="amenity-text">Business Center</span>
+                            </div>
+                            <div class="amenity-item">
+                                <span class="amenity-icon">🏋️‍♂️</span>
+                                <span class="amenity-text">Fitness Center</span>
+                            </div>
+                            <div class="amenity-item">
+                                <span class="amenity-icon">🛎️</span>
+                                <span class="amenity-text">24/7 Room Service</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Room Types Section -->
+                    <section class="rooms-section">
+                        <h2>Room Types</h2>
+                        <div class="room-types">
+                            <div class="room-type">
+                                <h3>Deluxe Room</h3>
+                                <p>Spacious room with city view, king bed, and modern amenities.</p>
+                                <span class="room-price">₹8,500/night</span>
+                            </div>
+                            <div class="room-type">
+                                <h3>Premium Suite</h3>
+                                <p>Luxurious suite with separate living area and premium facilities.</p>
+                                <span class="room-price">₹12,000/night</span>
+                            </div>
+                            <div class="room-type">
+                                <h3>Presidential Suite</h3>
+                                <p>Ultimate luxury with panoramic views and exclusive services.</p>
+                                <span class="room-price">₹20,000/night</span>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Booking Section -->
+                <div class="booking-section">
+                    <div class="booking-card">
+                        <h3>Book Your Stay</h3>
+                        <form class="booking-form">
+                            <div class="form-group">
+                                <label for="checkin">Check-in Date</label>
+                                <input type="date" id="checkin" name="checkin" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="checkout">Check-out Date</label>
+                                <input type="date" id="checkout" name="checkout" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="guests">Guests</label>
+                                <select id="guests" name="guests">
+                                    <option value="1">1 Guest</option>
+                                    <option value="2" selected>2 Guests</option>
+                                    <option value="3">3 Guests</option>
+                                    <option value="4">4 Guests</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="roomtype">Room Type</label>
+                                <select id="roomtype" name="roomtype">
+                                    <option value="deluxe" selected>Deluxe Room - ₹8,500</option>
+                                    <option value="premium">Premium Suite - ₹12,000</option>
+                                    <option value="presidential">Presidential Suite - ₹20,000</option>
+                                </select>
+                            </div>
+                            <div class="total-price">
+                                <span>Total: ₹17,000 (2 nights)</span>
+                            </div>
+                            <button type="submit" class="book-now-btn">Book Now</button>
+                        </form>
+                    </div>
+
+                    <!-- Customer Reviews -->
+                    <div class="reviews-section">
+                        <h3>Customer Reviews</h3>
+                        <div class="review-item">
+                            <div class="review-header">
+                                <span class="reviewer-name">Rajesh Kumar</span>
+                                <span class="review-rating">★★★★★</span>
+                            </div>
+                            <p class="review-text">"Excellent service and beautiful rooms. The pool area is amazing!"</p>
+                        </div>
+                        <div class="review-item">
+                            <div class="review-header">
+                                <span class="reviewer-name">Priya Sharma</span>
+                                <span class="review-rating">★★★★☆</span>
+                            </div>
+                            <p class="review-text">"Great location and friendly staff. Highly recommended for business travelers."</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <div class="contact">Contact Us</div>
+            <div class="social-media">
+                <img src="./assests/images/facebook.png" alt="facebook" class="social-icon">
+                <img src="./assests/images/instagram.png" alt="instagram" class="social-icon">
+                <img src="./assests/images/twitter.png" alt="twitter" class="social-icon">
+            </div>
+            <div class="copyright">© 2023 Hotel Booking</div>
+        </footer>
+
+        <script src="./scripts/detail.js"></script>
+    </body>
+</html>
