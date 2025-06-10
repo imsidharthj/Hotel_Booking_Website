@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Hotel List - Delhi</title>
+        <link rel="stylesheet" href="./styles/list.css">
+    </head>
+    <body>
+        <header class="header">
+            <img src="./assests/images/logo.png" alt="Hotel logo" class="logo"/>
+            <h1 class="login-title">Login</h1>
+            <input type="text" class="search-input" placeholder="Search" />
+        </header>
+
+        <nav class="breadcrumb">
+            <a href="index.html">Home</a> > <span id="breadcrumbCity">Delhi Hotels</span>
+        </nav>
+
+        <main class="main-content">
+            <div class="filter-section">
+                <h2 id="pageTitle">Hotels in Delhi</h2>
+                <div class="filter-controls">
+                    <select id="cityFilter" onchange="filterByCity()">
+                        <option value="all">All Cities</option>
+                        <option value="delhi">Delhi</option>
+                        <option value="goa">Goa</option>
+                        <option value="mumbai">Mumbai</option>
+                        <option value="kolkata">Kolkata</option>
+                        <option value="chennai">Chennai</option>
+                        <option value="agra">Agra</option>
+                        <option value="jaipur">Jaipur</option>
+                        <option value="bengaluru">Bengaluru</option>
+                    </select>
+                    <select id="priceFilter" onchange="filterByPrice()">
+                        <option value="all">All Prices</option>
+                        <option value="low">Under ₹10,000</option>
+                        <option value="medium">₹10,000 - ₹15,000</option>
+                        <option value="high">Above ₹15,000</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="view-controls">
+                <button id="listViewBtn" class="view-btn active" onclick="showListView()">List View</button>
+                <button id="mapViewBtn" class="view-btn" onclick="showMapView()">Map View</button>
+            </div>
+
+            <!-- List View Section -->
+            <section id="listView" class="list-view">
+                <div class="hotels-container">
+                    <div class="hotel-card" onclick="goToHotelDetail('radisson-blu')">
+                        <img src="https://media-cdn.tripadvisor.com/media/photo-w/17/b3/09/b4/by-the-poolside.jpg" alt="Radisson Blu Hotel" class="hotel-image">
+                        <div class="hotel-info">
+                            <h3 class="hotel-name">Radisson Blu Hotel</h3>
+                            <p class="hotel-city">New Delhi</p>
+                            <div class="rating">
+                                <span class="stars">★★★★☆</span>
+                                <span class="rating-text">4.2 (1,250 reviews)</span>
+                            </div>
+                            <div class="amenities">
+                                <span class="amenity">Pool</span>
+                                <span class="amenity">WiFi</span>
+                                <span class="amenity">Spa</span>
+                                <span class="amenity">Restaurant</span>
+                            </div>
+                            <div class="price">₹8,500 per night</div>
+                        </div>
+                    </div>
+
+                    <div class="hotel-card" onclick="goToHotelDetail('lalit-delhi')">
+                        <img src="https://media-cdn.tripadvisor.com/media/photo-w/15/06/31/5f/facade.jpg" alt="The Lalit New Delhi" class="hotel-image">
+                        <div class="hotel-info">
+                            <h3 class="hotel-name">The Lalit New Delhi</h3>
+                            <p class="hotel-city">New Delhi</p>
+                            <div class="rating">
+                                <span class="stars">★★★★★</span>
+                                <span class="rating-text">4.5 (890 reviews)</span>
+                            </div>
+                            <div class="amenities">
+                                <span class="amenity">Luxury</span>
+                                <span class="amenity">WiFi</span>
+                                <span class="amenity">Spa</span>
+                                <span class="amenity">Business Center</span>
+                            </div>
+                            <div class="price">₹12,000 per night</div>
+                        </div>
+                    </div>
+
+                    <div class="hotel-card" onclick="goToHotelDetail('taj-palace')">
+                        <img src="https://media-cdn.tripadvisor.com/media/photo-w/1b/4e/9b/11/exterior.jpg" alt="Taj Palace" class="hotel-image">
+                        <div class="hotel-info">
+                            <h3 class="hotel-name">Taj Palace</h3>
+                            <p class="hotel-city">New Delhi</p>
+                            <div class="rating">
+                                <span class="stars">★★★★★</span>
+                                <span class="rating-text">4.7 (2,100 reviews)</span>
+                            </div>
+                            <div class="amenities">
+                                <span class="amenity">Heritage</span>
+                                <span class="amenity">WiFi</span>
+                                <span class="amenity">Multiple Restaurants</span>
+                                <span class="amenity">Garden</span>
+                            </div>
+                            <div class="price">₹15,500 per night</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image Slider Section -->
+                <div class="image-slider">
+                    <h3>Featured Hotel Images</h3>
+                    <div class="slider-container">
+                        <div class="slider-wrapper">
+                            <img src="https://media-cdn.tripadvisor.com/media/photo-w/17/b3/09/b4/by-the-poolside.jpg" alt="Pool Area" class="slider-image active">
+                            <img src="https://media-cdn.tripadvisor.com/media/photo-o/01/fa/51/70/r-the-spa.jpg" alt="Spa Area" class="slider-image">
+                            <img src="https://media-cdn.tripadvisor.com/media/photo-w/0e/b2/64/3f/radisson-blu-plaza-delhi.jpg" alt="Hotel Exterior" class="slider-image">
+                        </div>
+                        <div class="slider-controls">
+                            <button class="slider-btn prev" onclick="previousSlide()">❮</button>
+                            <button class="slider-btn next" onclick="nextSlide()">❯</button>
+                        </div>
+                        <div class="slider-dots">
+                            <span class="dot active" onclick="currentSlide(1)"></span>
+                            <span class="dot" onclick="currentSlide(2)"></span>
+                            <span class="dot" onclick="currentSlide(3)"></span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Map View Section -->
+            <section id="mapView" class="map-view" style="display: none;">
+                <div class="map-container">
+                    <img src="https://cdn.pixabay.com/photo/2018/01/31/05/43/web-3120321_960_720.png" alt="Delhi Map" class="map-image">
+                    <div class="map-hotels">
+                        <div class="map-marker" style="top: 30%; left: 25%;" data-hotel="Radisson Blu Hotel">
+                            <div class="marker-icon">📍</div>
+                            <div class="marker-popup">
+                                <strong>Radisson Blu Hotel</strong><br>
+                                New Delhi<br>
+                                ★★★★☆ 4.2<br>
+                                ₹8,500/night
+                            </div>
+                        </div>
+                        <div class="map-marker" style="top: 45%; left: 40%;" data-hotel="The Lalit New Delhi">
+                            <div class="marker-icon">📍</div>
+                            <div class="marker-popup">
+                                <strong>The Lalit New Delhi</strong><br>
+                                New Delhi<br>
+                                ★★★★★ 4.5<br>
+                                ₹12,000/night
+                            </div>
+                        </div>
+                        <div class="map-marker" style="top: 60%; left: 55%;" data-hotel="Taj Palace">
+                            <div class="marker-icon">📍</div>
+                            <div class="marker-popup">
+                                <strong>Taj Palace</strong><br>
+                                New Delhi<br>
+                                ★★★★★ 4.7<br>
+                                ₹15,500/night
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <div class="contact">Contact Us</div>
+            <div class="social-media">
+                <img src="./assests/images/facebook.png" alt="facebook" class="social-icon">
+                <img src="./assests/images/instagram.png" alt="instagram" class="social-icon">
+                <img src="./assests/images/twitter.png" alt="twitter" class="social-icon">
+            </div>
+            <div class="copyright">© 2023 Hotel Booking</div>
+        </footer>
+
+        <script src="./scripts/list.js"></script>
+    </body>
+</html>
