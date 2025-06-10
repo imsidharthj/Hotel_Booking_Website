@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Payment - Hotel Booking</title>
+        <link rel="stylesheet" href="./styles/payment.css">
+    </head>
+    <body>
+        <header class="header">
+            <img src="./assests/images/logo.png" alt="Hotel logo" class="logo"/>
+            <h1 class="login-title">Login</h1>
+            <input type="text" class="search-input" placeholder="Search" />
+        </header>
+
+        <nav class="breadcrumb">
+            <a href="index.html">Home</a> > 
+            <a href="list.html">Delhi Hotels</a> > 
+            <a href="detail.html">Hotel Details</a> > 
+            <span>Payment</span>
+        </nav>
+
+        <main class="main-content">
+            <div class="payment-container">
+                <!-- Booking Summary Section -->
+                <div class="booking-summary">
+                    <h2>Booking Summary</h2>
+                    <div class="hotel-info">
+                        <img src="https://media-cdn.tripadvisor.com/media/photo-w/17/b3/09/b4/by-the-poolside.jpg" alt="Hotel" class="hotel-image">
+                        <div class="hotel-details">
+                            <h3 id="hotelName">Radisson Blu Hotel</h3>
+                            <p class="hotel-location">📍 New Delhi, India</p>
+                            <div class="hotel-rating">
+                                <span class="stars">★★★★☆</span>
+                                <span class="rating-text">4.2 (1,250 reviews)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="booking-details">
+                        <div class="detail-row">
+                            <span class="label">Room Type:</span>
+                            <span id="roomType" class="value">Deluxe Room</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label">Guests:</span>
+                            <span id="guestCount" class="value">2 Guests</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label">Check-in:</span>
+                            <span id="checkinDate" class="value">Dec 25, 2023</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label">Check-out:</span>
+                            <span id="checkoutDate" class="value">Dec 27, 2023</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label">Duration:</span>
+                            <span id="nightCount" class="value">2 Nights</span>
+                        </div>
+                    </div>
+
+                    <div class="price-breakdown">
+                        <h3>Price Breakdown</h3>
+                        <div class="price-row">
+                            <span id="priceCalculation">₹8,500 × 2 nights</span>
+                            <span id="subtotal">₹17,000</span>
+                        </div>
+                        <div class="price-row">
+                            <span>Taxes & Fees</span>
+                            <span id="taxes">₹2,040</span>
+                        </div>
+                        <div class="price-row total">
+                            <span>Total Amount</span>
+                            <span id="totalAmount">₹19,040</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Form Section -->
+                <div class="payment-form-section">
+                    <h2>Payment Details</h2>
+                    <form class="payment-form" id="paymentForm">
+                        <!-- Guest Information -->
+                        <div class="form-section">
+                            <h3>Guest Information</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="firstName">First Name *</label>
+                                    <input type="text" id="firstName" name="firstName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastName">Last Name *</label>
+                                    <input type="text" id="lastName" name="lastName" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="email">Email Address *</label>
+                                    <input type="email" id="email" name="email" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone">Phone Number *</label>
+                                    <input type="tel" id="phone" name="phone" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Payment Method -->
+                        <div class="form-section">
+                            <h3>Payment Method</h3>
+                            <div class="payment-methods">
+                                <label class="payment-method">
+                                    <input type="radio" name="paymentMethod" value="card" checked>
+                                    <span class="method-icon">💳</span>
+                                    <span>Credit/Debit Card</span>
+                                </label>
+                                <label class="payment-method">
+                                    <input type="radio" name="paymentMethod" value="upi">
+                                    <span class="method-icon">📱</span>
+                                    <span>UPI Payment</span>
+                                </label>
+                                <label class="payment-method">
+                                    <input type="radio" name="paymentMethod" value="netbanking">
+                                    <span class="method-icon">🏦</span>
+                                    <span>Net Banking</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Card Details -->
+                        <div class="form-section" id="cardDetails">
+                            <h3>Card Details</h3>
+                            <div class="form-group">
+                                <label for="cardNumber">Card Number *</label>
+                                <input type="text" id="cardNumber" name="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="expiryDate">Expiry Date *</label>
+                                    <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/YY" maxlength="5">
+                                </div>
+                                <div class="form-group">
+                                    <label for="cvv">CVV *</label>
+                                    <input type="text" id="cvv" name="cvv" placeholder="123" maxlength="3">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="cardName">Name on Card *</label>
+                                <input type="text" id="cardName" name="cardName" placeholder="John Doe">
+                            </div>
+                        </div>
+
+                        <!-- UPI Details -->
+                        <div class="form-section hidden" id="upiDetails">
+                            <h3>UPI Details</h3>
+                            <div class="form-group">
+                                <label for="upiId">UPI ID *</label>
+                                <input type="text" id="upiId" name="upiId" placeholder="yourname@upi">
+                            </div>
+                        </div>
+
+                        <!-- Net Banking Details -->
+                        <div class="form-section hidden" id="netbankingDetails">
+                            <h3>Select Your Bank</h3>
+                            <div class="form-group">
+                                <select id="bankSelect" name="bankSelect">
+                                    <option value="">Select Bank</option>
+                                    <option value="sbi">State Bank of India</option>
+                                    <option value="hdfc">HDFC Bank</option>
+                                    <option value="icici">ICICI Bank</option>
+                                    <option value="axis">Axis Bank</option>
+                                    <option value="pnb">Punjab National Bank</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Terms and Conditions -->
+                        <div class="form-section">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="terms" required>
+                                <span class="checkmark"></span>
+                                I agree to the <a href="#" class="terms-link">Terms and Conditions</a> and <a href="#" class="terms-link">Privacy Policy</a>
+                            </label>
+                        </div>
+
+                        <button type="submit" class="pay-now-btn">
+                            <span>Pay Now</span>
+                            <span id="payAmount">₹19,040</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <div class="contact">Contact Us</div>
+            <div class="social-media">
+                <img src="./assests/images/facebook.png" alt="facebook" class="social-icon">
+                <img src="./assests/images/instagram.png" alt="instagram" class="social-icon">
+                <img src="./assests/images/twitter.png" alt="twitter" class="social-icon">
+            </div>
+            <div class="copyright">© 2023 Hotel Booking</div>
+        </footer>
+
+        <script src="./scripts/payment.js"></script>
+    </body>
+</html>
