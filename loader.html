@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Loading - Hotel Booking</title>
+        <link rel="stylesheet" href="./styles/loader.css">
+    </head>
+    <body>
+        <div class="loader-container">
+            <h1 class="loader-title">Hotel Booking</h1>
+            <p class="loader-subtitle">Finding your perfect stay...</p>
+            
+            <div class="loader-spinner">
+                <div class="spinner-ring"></div>
+                <div class="loader-icon">🏨</div>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-bar"></div>
+            </div>
+            
+            <div class="loading-text">Loading</div>
+            
+            <div class="floating-elements">
+                <div class="floating-element">🏨</div>
+                <div class="floating-element">🗝️</div>
+                <div class="floating-element">🛏️</div>
+                <div class="floating-element">⭐</div>
+            </div>
+        </div>
+        
+        <script>
+            // Auto redirect after 3 seconds (for demonstration)
+            setTimeout(() => {
+                const loader = document.querySelector('.loader-container');
+                loader.classList.add('loader-fade-out');
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 500);
+            }, 3000);
+        </script>
+    </body>
+</html>
