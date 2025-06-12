@@ -1,414 +1,375 @@
-// Hotel data storage
-let currentHotelData = {
-    name: 'Radisson Blu Hotel',
-    location: 'New Delhi, India',
-    rating: 4.2,
-    reviewCount: 1250,
-    basePrice: 8500,
-    images: [
-        'https://media-cdn.tripadvisor.com/media/photo-w/17/b3/09/b4/by-the-poolside.jpg',
-        'https://media-cdn.tripadvisor.com/media/photo-o/01/fa/51/70/r-the-spa.jpg',
-        'https://media-cdn.tripadvisor.com/media/photo-w/0e/b2/64/3f/radisson-blu-plaza-delhi.jpg',
-        'https://media-cdn.tripadvisor.com/media/photo-w/15/06/31/5f/facade.jpg'
-    ]
-};
+let currentHotel = null;
+let selectedRoomType = null;
 
-// Image gallery functionality
-function changeMainImage(thumbnail) {
-    const mainImage = document.getElementById('mainImage');
-    const thumbnails = document.querySelectorAll('.thumbnail');
+document.addEventListener('DOMContentLoaded', function() {
+    initializeDetailPage();
+});
+
+async function initializeDetailPage() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const hotelId = urlParams.get('id') || urlParams.get('hotel');
     
-    // Remove active class from all thumbnails
-    thumbnails.forEach(thumb => thumb.classList.remove('active'));
+    if (!hotelId) {
+        displayErrorMessage('Hotel not specified');
+        return;
+    }
     
-    // Add active class to clicked thumbnail
-    thumbnail.classList.add('active');
-    
-    // Change main image source with smooth transition
-    mainImage.style.opacity = '0.5';
-    
-    setTimeout(() => {
-        mainImage.src = thumbnail.src;
-        mainImage.alt = thumbnail.alt;
-        mainImage.style.opacity = '1';
-    }, 200);
+    await loadHotelDetails(hotelId);
 }
 
-// Price calculation functionality
-function calculateTotal() {
-    const checkin = document.getElementById('checkin').value;
-    const checkout = document.getElementById('checkout').value;
-    const roomtype = document.getElementById('roomtype').value;
-    
-    if (checkin && checkout) {
-        const checkinDate = new Date(checkin);
-        const checkoutDate = new Date(checkout);
-        const timeDiff = checkoutDate.getTime() - checkinDate.getTime();
-        const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+async function loadHotelDetails(hotelId) {
+    try {
+        showLoader('Loading hotel details...');
         
-        if (daysDiff <= 0) {
-            document.querySelector('.total-price span').textContent = 'Invalid date range';
+        console.log(`Loading detailed information for hotel ID: ${hotelId}`);
+        
+        // ✅ FIXED: Add better error checking
+        if (!window.tripAdvisorAPI) {
+            console.error('TripAdvisor API service not available');
+            displayErrorMessage('Service unavailable. Please try again.');
             return;
         }
         
-        let pricePerNight = 8500;
-        if (roomtype === 'premium') pricePerNight = 12000;
-        if (roomtype === 'presidential') pricePerNight = 20000;
+        console.log('API service status:', window.tripAdvisorAPI.getApiStatus());
         
-        const total = daysDiff * pricePerNight;
-        const totalPriceElement = document.querySelector('.total-price span');
+        currentHotel = await window.tripAdvisorAPI.getHotelDetails(hotelId);
         
-        // Animate price change
-        totalPriceElement.style.transform = 'scale(1.1)';
-        totalPriceElement.style.color = '#e74c3c';
+        if (!currentHotel) {
+            console.error('No hotel data returned for ID:', hotelId);
+            displayErrorMessage('Hotel not found');
+            return;
+        }
         
-        setTimeout(() => {
-            totalPriceElement.textContent = `Total: ₹${total.toLocaleString()} (${daysDiff} night${daysDiff > 1 ? 's' : ''})`;
-            totalPriceElement.style.transform = 'scale(1)';
-        }, 150);
+        console.log(`Loaded details for: ${currentHotel.name}`);
+        console.log('Hotel details:', currentHotel);
+        
+        displayHotelDetails(currentHotel);
+        setupBookingForm();
+        
+    } catch (error) {
+        console.error('Error loading hotel details:', error);
+        displayErrorMessage('Failed to load hotel details. Please try again.');
+    } finally {
+        hideLoader();
     }
 }
 
-// Form validation
-function validateBookingForm() {
-    const checkin = document.getElementById('checkin').value;
-    const checkout = document.getElementById('checkout').value;
-    const guests = document.getElementById('guests').value;
-    const roomtype = document.getElementById('roomtype').value;
+function displayHotelDetails(hotel) {
+    // Update page title
+    document.title = `${hotel.name} - Hotel Booking`;
     
-    if (!checkin || !checkout) {
-        showAlert('Please select check-in and check-out dates', 'error');
-        return false;
-    }
+    // Update hotel header with detailed info
+    updateHotelHeader(hotel);
     
-    const checkinDate = new Date(checkin);
-    const checkoutDate = new Date(checkout);
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    // Update hotel gallery with full image set
+    updateHotelGallery(hotel.images);
     
-    if (checkinDate < today) {
-        showAlert('Check-in date cannot be in the past', 'error');
-        return false;
-    }
+    // Update detailed hotel info
+    updateHotelInfo(hotel);
     
-    if (checkoutDate <= checkinDate) {
-        showAlert('Check-out date must be after check-in date', 'error');
-        return false;
-    }
+    // Update comprehensive amenities list
+    updateAmenities(hotel.amenities);
     
-    const timeDiff = checkoutDate.getTime() - checkinDate.getTime();
-    const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+    // Update contact information
+    updateContactInfo(hotel.contact);
     
-    if (daysDiff > 30) {
-        showAlert('Maximum stay duration is 30 nights', 'error');
-        return false;
-    }
+    // Update room types if available
+    updateRoomTypes(hotel.roomTypes);
     
-    return { checkin, checkout, guests, roomtype, daysDiff };
+    // Update reviews if available
+    updateReviews(hotel.reviews);
+    
+    // Update policies if available
+    updatePolicies(hotel.policies);
 }
 
-// Custom alert function
-function showAlert(message, type = 'info') {
-    // Remove existing alerts
-    const existingAlert = document.querySelector('.custom-alert');
-    if (existingAlert) {
-        existingAlert.remove();
-    }
+function updateHotelHeader(hotel) {
+    const hotelTitle = document.querySelector('.hotel-title');
+    const hotelLocation = document.querySelector('.hotel-location');
+    const hotelRating = document.querySelector('.hotel-rating');
+    const priceAmount = document.querySelector('.price-amount');
     
-    const alert = document.createElement('div');
-    alert.className = `custom-alert ${type}`;
-    alert.innerHTML = `
-        <span>${message}</span>
-        <button onclick="this.parentElement.remove()">×</button>
+    if (hotelTitle) hotelTitle.textContent = hotel.name;
+    if (hotelLocation) hotelLocation.textContent = `📍 ${hotel.location}`;
+    if (priceAmount) priceAmount.textContent = hotel.price.replace('/night', '');
+    
+    if (hotelRating) {
+        const stars = generateStarRating(hotel.rating);
+        hotelRating.innerHTML = `
+            <span class="stars">${stars}</span>
+            <span class="rating-score">${hotel.rating}</span>
+            ${hotel.reviewCount ? `<span class="rating-count">(${hotel.reviewCount} reviews)</span>` : ''}
+        `;
+    }
+}
+
+function updateHotelGallery(images) {
+    const gallery = document.getElementById('hotel-gallery');
+    if (!gallery || !images || images.length === 0) return;
+    
+    gallery.innerHTML = '';
+    
+    // Main image
+    const mainImage = document.createElement('div');
+    mainImage.className = 'main-image';
+    mainImage.innerHTML = `
+        <img src="${images[0]}" alt="Hotel main image" id="main-hotel-image"
+             onerror="this.src='https://via.placeholder.com/800x400?text=Hotel+Image'">
     `;
+    gallery.appendChild(mainImage);
     
-    // Add styles
-    alert.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        padding: 15px 20px;
-        border-radius: 8px;
-        color: white;
-        font-weight: 600;
-        z-index: 1000;
-        max-width: 300px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        animation: slideIn 0.3s ease;
-    `;
-    
-    if (type === 'error') {
-        alert.style.backgroundColor = '#e74c3c';
-    } else if (type === 'success') {
-        alert.style.backgroundColor = '#27ae60';
-    } else {
-        alert.style.backgroundColor = '#3498db';
+    // Thumbnail images
+    if (images.length > 1) {
+        const thumbnails = document.createElement('div');
+        thumbnails.className = 'thumbnail-images';
+        
+        images.slice(1, 5).forEach((image, index) => {
+            const thumbnail = document.createElement('img');
+            thumbnail.src = image;
+            thumbnail.alt = `Hotel image ${index + 2}`;
+            thumbnail.className = 'thumbnail';
+            thumbnail.onclick = () => changeMainImage(image);
+            thumbnail.onerror = function() {
+                this.src = 'https://via.placeholder.com/200x150?text=Hotel+Image';
+            };
+            thumbnails.appendChild(thumbnail);
+        });
+        
+        gallery.appendChild(thumbnails);
+    }
+}
+
+function updateHotelInfo(hotel) {
+    const hotelDescription = document.getElementById('hotel-description');
+    if (hotelDescription && hotel.description) {
+        hotelDescription.textContent = hotel.description;
     }
     
-    document.body.appendChild(alert);
-    
-    // Auto remove after 5 seconds
-    setTimeout(() => {
-        if (alert.parentElement) {
-            alert.remove();
-        }
-    }, 5000);
+    // Update additional info sections
+    updateLocationInfo(hotel);
+    updatePolicies(hotel);
 }
 
-// Form submission handling
-function setupFormSubmission() {
-    const form = document.querySelector('.booking-form');
+function updateAmenities(amenities) {
+    const amenitiesContainer = document.getElementById('amenities-list');
+    if (!amenitiesContainer || !amenities) return;
     
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const formData = validateBookingForm();
-        if (!formData) return;
-        
-        // Show loading state
-        const submitBtn = document.querySelector('.book-now-btn');
-        const originalText = submitBtn.textContent;
-        submitBtn.textContent = 'Processing...';
-        submitBtn.disabled = true;
-        submitBtn.style.opacity = '0.7';
-        
-        // Calculate pricing details
-        let pricePerNight = 8500;
-        let roomTypeName = 'Deluxe Room';
-        
-        if (formData.roomtype === 'premium') {
-            pricePerNight = 12000;
-            roomTypeName = 'Premium Suite';
-        }
-        if (formData.roomtype === 'presidential') {
-            pricePerNight = 20000;
-            roomTypeName = 'Presidential Suite';
-        }
-        
-        const total = formData.daysDiff * pricePerNight;
-        
-        // Simulate booking validation
-        setTimeout(() => {
-            // Create URL with booking details
-            const params = new URLSearchParams({
-                hotel: currentHotelData.name,
-                roomType: roomTypeName,
-                guests: formData.guests,
-                checkin: formData.checkin,
-                checkout: formData.checkout,
-                nights: formData.daysDiff,
-                pricePerNight: pricePerNight,
-                total: total
-            });
-            
-            // Reset button
-            submitBtn.textContent = originalText;
-            submitBtn.disabled = false;
-            submitBtn.style.opacity = '1';
-            
-            // Show success message
-            showAlert('Redirecting to payment page...', 'success');
-            
-            // Redirect to payment page
-            setTimeout(() => {
-                window.location.href = `payment.html?${params.toString()}`;
-            }, 1000);
-            
-        }, 1500);
+    amenitiesContainer.innerHTML = '';
+    amenities.forEach(amenity => {
+        const amenityItem = document.createElement('div');
+        amenityItem.className = 'amenity-item';
+        amenityItem.innerHTML = `
+            <i class="amenity-icon">✓</i>
+            <span>${amenity}</span>
+        `;
+        amenitiesContainer.appendChild(amenityItem);
     });
 }
 
-// Setup date inputs
-function setupDateInputs() {
-    const today = new Date().toISOString().split('T')[0];
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    const tomorrowStr = tomorrow.toISOString().split('T')[0];
+function updateContactInfo(contact) {
+    if (!contact) return;
     
-    const checkinInput = document.getElementById('checkin');
-    const checkoutInput = document.getElementById('checkout');
-    
-    checkinInput.setAttribute('min', today);
-    checkoutInput.setAttribute('min', tomorrow);
-    
-    // Auto-set checkout date when checkin changes
-    checkinInput.addEventListener('change', function() {
-        const checkinDate = new Date(this.value);
-        checkinDate.setDate(checkinDate.getDate() + 1);
-        const minCheckout = checkinDate.toISOString().split('T')[0];
-        checkoutInput.setAttribute('min', minCheckout);
-        
-        if (checkoutInput.value && checkoutInput.value <= this.value) {
-            checkoutInput.value = minCheckout;
-        }
-        
-        calculateTotal();
-    });
-    
-    checkoutInput.addEventListener('change', calculateTotal);
+    const contactSection = document.getElementById('contact-info');
+    if (contactSection) {
+        contactSection.innerHTML = `
+            ${contact.phone ? `<p><strong>Phone:</strong> ${contact.phone}</p>` : ''}
+            ${contact.email ? `<p><strong>Email:</strong> ${contact.email}</p>` : ''}
+            ${contact.website ? `<p><strong>Website:</strong> <a href="${contact.website}" target="_blank">${contact.website}</a></p>` : ''}
+        `;
+    }
 }
 
-// Setup room type interactions
-function setupRoomTypeInteractions() {
-    const roomTypes = document.querySelectorAll('.room-type');
-    const roomTypeSelect = document.getElementById('roomtype');
+function updateRoomTypes(roomTypes) {
+    const roomsSection = document.querySelector('.rooms-section .room-types');
+    if (!roomsSection || !roomTypes) return;
     
-    roomTypes.forEach((roomType, index) => {
-        roomType.addEventListener('click', function() {
-            // Remove active class from all room types
-            roomTypes.forEach(rt => rt.classList.remove('active-room'));
-            
-            // Add active class to clicked room
-            this.classList.add('active-room');
-            
-            // Update select value
-            const options = ['deluxe', 'premium', 'presidential'];
-            roomTypeSelect.value = options[index];
-            
-            // Trigger price calculation
-            calculateTotal();
-        });
-    });
-    
-    // Also handle select change
-    roomTypeSelect.addEventListener('change', function() {
-        roomTypes.forEach(rt => rt.classList.remove('active-room'));
-        
-        const selectedIndex = ['deluxe', 'premium', 'presidential'].indexOf(this.value);
-        if (selectedIndex !== -1) {
-            roomTypes[selectedIndex].classList.add('active-room');
-        }
-        
-        calculateTotal();
+    roomsSection.innerHTML = '';
+    roomTypes.forEach(room => {
+        const roomDiv = document.createElement('div');
+        roomDiv.className = 'room-type';
+        roomDiv.innerHTML = `
+            <h3>${room.name}</h3>
+            <p>${room.description}</p>
+            <span class="room-price">${room.price}</span>
+        `;
+        roomsSection.appendChild(roomDiv);
     });
 }
 
-// Setup amenity interactions
-function setupAmenityInteractions() {
-    const amenityItems = document.querySelectorAll('.amenity-item');
+function updateReviews(reviews) {
+    const reviewsSection = document.querySelector('.reviews-section');
+    if (!reviewsSection || !reviews) return;
     
-    amenityItems.forEach(item => {
-        item.addEventListener('mouseenter', function() {
-            this.style.transform = 'scale(1.05)';
-            this.style.boxShadow = '0 4px 12px rgba(52, 152, 219, 0.3)';
-        });
-        
-        item.addEventListener('mouseleave', function() {
-            this.style.transform = 'scale(1)';
-            this.style.boxShadow = 'none';
-        });
+    const existingReviews = reviewsSection.querySelectorAll('.review-item');
+    existingReviews.forEach(review => review.remove());
+    
+    reviews.slice(0, 3).forEach(review => {
+        const reviewDiv = document.createElement('div');
+        reviewDiv.className = 'review-item';
+        reviewDiv.innerHTML = `
+            <div class="review-header">
+                <span class="reviewer-name">${review.author}</span>
+                <span class="review-rating">${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</span>
+            </div>
+            <p class="review-text">"${review.text}"</p>
+            ${review.date ? `<span class="review-date">${review.date}</span>` : ''}
+        `;
+        reviewsSection.appendChild(reviewDiv);
     });
 }
 
-// Setup image gallery keyboard navigation
-function setupKeyboardNavigation() {
-    document.addEventListener('keydown', function(e) {
-        const thumbnails = document.querySelectorAll('.thumbnail');
-        const activeThumbnail = document.querySelector('.thumbnail.active');
-        
-        if (!activeThumbnail) return;
-        
-        let currentIndex = Array.from(thumbnails).indexOf(activeThumbnail);
-        
-        if (e.key === 'ArrowLeft' && currentIndex > 0) {
-            e.preventDefault();
-            changeMainImage(thumbnails[currentIndex - 1]);
-        } else if (e.key === 'ArrowRight' && currentIndex < thumbnails.length - 1) {
-            e.preventDefault();
-            changeMainImage(thumbnails[currentIndex + 1]);
-        }
-    });
+function updatePolicies(policies) {
+    if (!policies) return;
+    
+    const policySection = document.querySelector('.policies-section') || createPolicySection();
+    policySection.innerHTML = `
+        <h3>Hotel Policies</h3>
+        <div class="policy-item">
+            <strong>Check-in:</strong> ${policies.checkIn || '3:00 PM'}
+        </div>
+        <div class="policy-item">
+            <strong>Check-out:</strong> ${policies.checkOut || '11:00 AM'}
+        </div>
+        <div class="policy-item">
+            <strong>Cancellation:</strong> ${policies.cancellation || '24 hours before check-in'}
+        </div>
+        <div class="policy-item">
+            <strong>Pets:</strong> ${policies.pets || 'Contact hotel for pet policy'}
+        </div>
+    `;
 }
 
-// Setup search functionality
-function setupSearch() {
-    const searchInput = document.querySelector('.search-input');
+function createPolicySection() {
+    const policySection = document.createElement('div');
+    policySection.className = 'policies-section';
+    const bookingSection = document.querySelector('.booking-section');
+    if (bookingSection) {
+        bookingSection.appendChild(policySection);
+    }
+    return policySection;
+}
+
+function setupBookingForm() {
+    const bookingForm = document.getElementById('booking-form');
+    if (bookingForm) {
+        bookingForm.addEventListener('submit', handleBookingSubmit);
+    }
     
-    searchInput.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            const searchTerm = this.value.trim();
-            if (searchTerm) {
-                window.location.href = `list.html?search=${encodeURIComponent(searchTerm)}`;
+    const checkinDate = document.getElementById('checkin-date');
+    const checkoutDate = document.getElementById('checkout-date');
+    
+    if (checkinDate && checkoutDate) {
+        const today = new Date().toISOString().split('T')[0];
+        checkinDate.min = today;
+        checkoutDate.min = today;
+        
+        checkinDate.addEventListener('change', function() {
+            checkoutDate.min = this.value;
+            if (checkoutDate.value && checkoutDate.value <= this.value) {
+                const nextDay = new Date(this.value);
+                nextDay.setDate(nextDay.getDate() + 1);
+                checkoutDate.value = nextDay.toISOString().split('T')[0];
             }
-        }
-    });
-}
-
-// Initialize page functionality
-function initializeDetailPage() {
-    setupDateInputs();
-    setupFormSubmission();
-    setupRoomTypeInteractions();
-    setupAmenityInteractions();
-    setupKeyboardNavigation();
-    setupSearch();
-    
-    // Add event listeners for price calculation
-    document.getElementById('checkin').addEventListener('change', calculateTotal);
-    document.getElementById('checkout').addEventListener('change', calculateTotal);
-    document.getElementById('roomtype').addEventListener('change', calculateTotal);
-    
-    // Initial price calculation
-    calculateTotal();
-    
-    console.log('Detail page initialized successfully');
-}
-
-// Handle page load
-document.addEventListener('DOMContentLoaded', function() {
-    initializeDetailPage();
-    
-    // Add loading animation for sections
-    const sections = document.querySelectorAll('.hotel-header, .image-gallery, .hotel-details, .booking-section');
-    
-    sections.forEach((section, index) => {
-        section.style.opacity = '0';
-        section.style.transform = 'translateY(30px)';
-        
-        setTimeout(() => {
-            section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            section.style.opacity = '1';
-            section.style.transform = 'translateY(0)';
-        }, index * 150);
-    });
-});
-
-// Handle URL parameters for different hotels
-function handleHotelParams() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const hotelId = urlParams.get('hotel');
-    
-    // This could be expanded to load different hotel data based on hotelId
-    if (hotelId && hotelId !== 'radisson-blu') {
-        // Load different hotel data
-        console.log(`Loading hotel: ${hotelId}`);
-        // Future implementation for dynamic hotel loading
+        });
     }
 }
 
-// Add CSS for animations
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes slideIn {
-        from { transform: translateX(100%); opacity: 0; }
-        to { transform: translateX(0); opacity: 1; }
-    }
+function handleBookingSubmit(event) {
+    event.preventDefault();
     
-    .room-type.active-room {
-        border-color: #3498db !important;
-        background-color: #e3f2fd !important;
-    }
+    const formData = new FormData(event.target);
+    const bookingData = {
+        hotelId: currentHotel.id,
+        hotelName: currentHotel.name,
+        checkinDate: formData.get('checkin-date'),
+        checkoutDate: formData.get('checkout-date'),
+        guests: formData.get('guests'),
+        rooms: formData.get('rooms'),
+        totalPrice: calculateTotalPrice(formData.get('checkin-date'), formData.get('checkout-date'))
+    };
     
-    .amenity-item {
-        transition: all 0.3s ease;
-    }
-`;
-document.head.appendChild(style);
+    sessionStorage.setItem('bookingData', JSON.stringify(bookingData));
+    window.location.href = 'payment.html';
+}
 
-// Export functions for potential use in other scripts
-window.hotelDetailApp = {
-    changeMainImage,
-    calculateTotal,
-    validateBookingForm,
-    showAlert
-};
+function calculateTotalPrice(checkinDate, checkoutDate) {
+    if (!checkinDate || !checkoutDate || !currentHotel.price) return 0;
+    
+    const checkin = new Date(checkinDate);
+    const checkout = new Date(checkoutDate);
+    const nights = Math.ceil((checkout - checkin) / (1000 * 60 * 60 * 24));
+    
+    const pricePerNight = extractPriceNumber(currentHotel.price);
+    return nights * pricePerNight;
+}
+
+function extractPriceNumber(priceString) {
+    const match = priceString.match(/[\d,]+/);
+    return match ? parseInt(match[0].replace(/,/g, '')) : 0;
+}
+
+function changeMainImage(imageSrc) {
+    const mainImage = document.getElementById('main-hotel-image');
+    if (mainImage) {
+        mainImage.src = imageSrc;
+    }
+}
+
+function updateLocationInfo(hotel) {
+    console.log('Updating location info for:', hotel.location);
+}
+
+function generateStarRating(rating) {
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating % 1 >= 0.5;
+    let stars = '';
+    
+    for (let i = 0; i < fullStars; i++) {
+        stars += '★';
+    }
+    if (hasHalfStar) {
+        stars += '☆';
+    }
+    while (stars.length < 5) {
+        stars += '☆';
+    }
+    
+    return stars;
+}
+
+function displayErrorMessage(message) {
+    const mainContent = document.querySelector('.main-content');
+    if (mainContent) {
+        mainContent.innerHTML = `
+            <div class="error-message" style="text-align: center; padding: 40px; color: #d32f2f;">
+                <h3>⚠️ Error</h3>
+                <p>${message}</p>
+                <button onclick="location.reload()" style="margin-top: 10px; padding: 10px 20px; background: #1976d2; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                    Try Again
+                </button>
+            </div>
+        `;
+    }
+}
+
+function showLoader(message = 'Loading...') {
+    let loader = document.getElementById('page-loader');
+    if (!loader) {
+        loader = document.createElement('div');
+        loader.id = 'page-loader';
+        loader.style.cssText = `
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.9); display: flex;
+            justify-content: center; align-items: center; z-index: 9999;
+        `;
+        document.body.appendChild(loader);
+    }
+    loader.innerHTML = `<div style="text-align: center;">
+        <div style="width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid #1976d2; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px;"></div>
+        <p>${message}</p></div>`;
+}
+
+function hideLoader() {
+    const loader = document.getElementById('page-loader');
+    if (loader) loader.remove();
+}

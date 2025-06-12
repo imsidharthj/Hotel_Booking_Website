@@ -3,18 +3,16 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Radisson Blu Hotel - Hotel Details</title>
+        <title>Hotel Details - Hotel Booking</title>
         <link rel="stylesheet" href="./styles/detail.css">
     </head>
     <body>
-        <header class="header">
-            <img src="./assests/images/logo.png" alt="Hotel logo" class="logo"/>
-            <h1 class="login-title">Login</h1>
-            <input type="text" class="search-input" placeholder="Search" />
-        </header>
+        <!-- Header Template Placeholder -->
+        <div id="header-placeholder"></div>
 
+        <!-- Breadcrumb Navigation -->
         <nav class="breadcrumb">
-            <a href="index.html">Home</a> > <a href="list.html">Delhi Hotels</a> > <span>Radisson Blu Hotel</span>
+            <a href="index.html">Home</a> > <a href="list.html">Hotels</a> > Hotel Details
         </nav>
 
         <main class="main-content">
@@ -184,16 +182,12 @@
             </div>
         </main>
 
-        <footer class="footer">
-            <div class="contact">Contact Us</div>
-            <div class="social-media">
-                <img src="./assests/images/facebook.png" alt="facebook" class="social-icon">
-                <img src="./assests/images/instagram.png" alt="instagram" class="social-icon">
-                <img src="./assests/images/twitter.png" alt="twitter" class="social-icon">
-            </div>
-            <div class="copyright">© 2023 Hotel Booking</div>
-        </footer>
+        <!-- Footer Template Placeholder -->
+        <div id="footer-placeholder"></div>
 
-        <script src="./scripts/detail.js"></script>
+        <!-- ✅ CORRECT SCRIPT ORDER with defer attribute -->
+        <script src="./scripts/common.js" defer></script>
+        <script src="./scripts/api-service.js" defer></script>
+        <script src="./scripts/detail.js" defer></script>
     </body>
 </html>

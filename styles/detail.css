@@ -456,67 +456,320 @@ body {
         flex-direction: column;
         gap: 1rem;
         padding: 1rem;
+        background-color: #bb8d8c !important;
     }
-
-    .logo, .login-title, .search-input {
-        flex: none;
+    
+    .logo {
+        height: 50px;
+        width: 50px;
+    }
+    
+    .login-title {
+        font-size: 1.3rem;
+        color: white !important;
+    }
+    
+    .search-input {
         width: 100%;
     }
-
+    
     .main-content {
         padding: 1rem;
     }
-
+    
+    .breadcrumb {
+        padding: 0.8rem 1rem;
+        font-size: 0.8rem;
+    }
+    
     .hotel-header {
         flex-direction: column;
         align-items: center;
         text-align: center;
+        padding: 1.5rem;
+        border-radius: 10px;
     }
-
+    
     .hotel-title {
         font-size: 2rem;
+        margin-bottom: 0.8rem;
     }
-
+    
+    .hotel-location {
+        font-size: 1rem;
+    }
+    
+    .hotel-price {
+        margin-top: 1rem;
+    }
+    
     .price-amount {
         font-size: 2rem;
     }
-
-    .content-wrapper {
-        grid-template-columns: 1fr;
+    
+    .image-gallery {
+        padding: 1.5rem;
+        border-radius: 10px;
     }
-
+    
     .main-image {
         height: 250px;
+        border-radius: 8px;
     }
-
+    
     .thumbnail-gallery {
         flex-wrap: wrap;
+        gap: 0.5rem;
+        justify-content: center;
     }
-
-    .amenities-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .booking-card {
-        position: static;
-    }
-}
-
-@media (max-width: 480px) {
-    .hotel-title {
-        font-size: 1.5rem;
-    }
-
+    
     .thumbnail {
         width: 80px;
         height: 60px;
     }
-
+    
+    .content-wrapper {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .hotel-details {
+        gap: 1.5rem;
+    }
+    
+    .description-section,
+    .amenities-section,
+    .rooms-section {
+        padding: 1.5rem;
+        border-radius: 10px;
+    }
+    
+    .description-section h2,
+    .amenities-section h2,
+    .rooms-section h2 {
+        font-size: 1.5rem;
+    }
+    
+    .hotel-description {
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+    
+    .amenities-grid {
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+    }
+    
     .amenity-item {
         padding: 0.8rem;
+        border-radius: 6px;
     }
+    
+    .room-type {
+        padding: 1.2rem;
+        border-radius: 8px;
+    }
+    
+    .booking-card {
+        position: static;
+        padding: 1.5rem;
+        border-radius: 10px;
+    }
+    
+    .booking-card h3 {
+        font-size: 1.3rem;
+    }
+    
+    .reviews-section {
+        padding: 1.5rem;
+        border-radius: 10px;
+    }
+    
+    .footer {
+        background-color: #bb8d8c !important;
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+        padding: 1.5rem;
+    }
+}
 
+@media (max-width: 480px) {
+    .main-content {
+        padding: 0.8rem;
+    }
+    
+    .breadcrumb {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.75rem;
+    }
+    
+    .hotel-header {
+        padding: 1rem;
+    }
+    
+    .hotel-title {
+        font-size: 1.5rem;
+    }
+    
+    .hotel-location {
+        font-size: 0.9rem;
+    }
+    
+    .price-amount {
+        font-size: 1.8rem;
+    }
+    
+    .image-gallery {
+        padding: 1rem;
+    }
+    
+    .main-image {
+        height: 200px;
+    }
+    
+    .thumbnail {
+        width: 70px;
+        height: 50px;
+    }
+    
+    .description-section,
+    .amenities-section,
+    .rooms-section,
+    .booking-card,
+    .reviews-section {
+        padding: 1rem;
+        border-radius: 8px;
+    }
+    
+    .description-section h2,
+    .amenities-section h2,
+    .rooms-section h2 {
+        font-size: 1.3rem;
+    }
+    
+    .hotel-description {
+        font-size: 0.95rem;
+    }
+    
+    .amenity-item {
+        padding: 0.6rem;
+        font-size: 0.9rem;
+    }
+    
+    .amenity-icon {
+        font-size: 1.2rem;
+    }
+    
     .room-type {
         padding: 1rem;
+    }
+    
+    .room-type h3 {
+        font-size: 1.1rem;
+    }
+    
+    .room-type p {
+        font-size: 0.9rem;
+    }
+    
+    .room-price {
+        font-size: 1.1rem;
+    }
+    
+    .booking-card h3 {
+        font-size: 1.2rem;
+    }
+    
+    .form-group input,
+    .form-group select {
+        padding: 0.7rem;
+        font-size: 0.9rem;
+    }
+    
+    .total-price {
+        font-size: 1.2rem;
+        padding: 0.8rem;
+    }
+    
+    .book-now-btn {
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
+    }
+    
+    .review-item {
+        padding: 0.8rem;
+    }
+    
+    .reviewer-name {
+        font-size: 0.9rem;
+    }
+    
+    .review-text {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 320px) {
+    .main-content {
+        padding: 0.5rem;
+    }
+    
+    .hotel-header {
+        padding: 0.8rem;
+    }
+    
+    .hotel-title {
+        font-size: 1.3rem;
+    }
+    
+    .image-gallery {
+        padding: 0.8rem;
+    }
+    
+    .main-image {
+        height: 180px;
+    }
+    
+    .thumbnail {
+        width: 60px;
+        height: 45px;
+    }
+    
+    .description-section,
+    .amenities-section,
+    .rooms-section,
+    .booking-card {
+        padding: 0.8rem;
+    }
+    
+    .amenity-item {
+        padding: 0.5rem;
+        font-size: 0.85rem;
+    }
+    
+    .room-type {
+        padding: 0.8rem;
+    }
+}
+
+/* Landscape Orientation for Mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+    .hotel-header {
+        flex-direction: row;
+        text-align: left;
+    }
+    
+    .hotel-price {
+        margin-top: 0;
+        text-align: right;
+    }
+    
+    .main-image {
+        height: 200px;
+    }
+    
+    .content-wrapper {
+        grid-template-columns: 2fr 1fr;
     }
 }
