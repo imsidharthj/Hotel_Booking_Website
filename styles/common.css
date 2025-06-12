@@ -458,6 +458,54 @@
     text-decoration: underline;
 }
 
+/* Enhanced login title styles */
+.login-title.logged-in {
+    color: #27ae60 !important;
+    font-weight: 700;
+    border-bottom: 2px solid #27ae60;
+    padding-bottom: 2px;
+}
+
+.login-title.logged-in:hover {
+    color: #2c3e50 !important;
+    border-bottom-color: #2c3e50;
+}
+
+/* Global Header and Footer Mobile Styles */
+.header {
+    background-color: #bb8d8c !important;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.header .login-title {
+    color: white !important;
+}
+
+.header .login-title:hover {
+    color: #f8f9fa !important;
+}
+
+.header .login-title.logged-in {
+    color: #fff3cd !important;
+    border-bottom-color: #fff3cd !important;
+}
+
+.header .login-title.logged-in:hover {
+    color: #f8f9fa !important;
+    border-bottom-color: #f8f9fa !important;
+}
+
+.footer {
+    background-color: #bb8d8c !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+}
+
+.footer .contact:hover {
+    color: #f8f9fa !important;
+}
+
 /* Responsive Design for Contact Page */
 @media (max-width: 768px) {
     .contact-content {
@@ -511,6 +559,12 @@
     .form-row {
         grid-template-columns: 1fr;
     }
+    
+    /* Enhanced mobile login title */
+    .login-title.logged-in {
+        font-size: 0.9rem;
+        text-align: center;
+    }
 }
 
 @media (max-width: 480px) {
@@ -531,5 +585,214 @@
     
     .social-login {
         gap: 0.8rem;
+    }
+}
+
+/* Enhanced Mobile Responsiveness */
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column !important;
+        gap: 1rem !important;
+        padding: 1rem !important;
+    }
+    
+    .logo {
+        height: 50px !important;
+        width: 50px !important;
+    }
+    
+    .login-title {
+        font-size: 1.3rem !important;
+        text-align: center !important;
+    }
+    
+    .search-input {
+        width: 100% !important;
+        max-width: none !important;
+    }
+    
+    .footer {
+        flex-direction: column !important;
+        gap: 1rem !important;
+        text-align: center !important;
+        padding: 1.5rem 1rem !important;
+    }
+    
+    .social-media {
+        justify-content: center !important;
+        gap: 1.5rem !important;
+    }
+    
+    .social-icon {
+        width: 35px !important;
+        height: 35px !important;
+    }
+    
+    /* Contact Form Mobile */
+    .contact-content {
+        grid-template-columns: 1fr !important;
+        gap: 2rem !important;
+    }
+    
+    .contact-form-section,
+    .contact-info-section {
+        padding: 1.5rem !important;
+    }
+    
+    .contact-main {
+        padding: 1rem !important;
+    }
+    
+    /* Login Form Mobile */
+    .login-main {
+        padding: 1rem !important;
+        align-items: flex-start !important;
+        padding-top: 2rem !important;
+        min-height: auto !important;
+    }
+    
+    .login-box,
+    .signup-box {
+        padding: 1.5rem !important;
+        margin: 0 !important;
+        width: 100% !important;
+        max-width: none !important;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr !important;
+        gap: 1rem !important;
+    }
+    
+    .social-login {
+        gap: 0.8rem !important;
+    }
+    
+    .social-btn {
+        padding: 0.7rem !important;
+        font-size: 0.9rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .header {
+        padding: 0.8rem !important;
+    }
+    
+    .logo {
+        height: 40px !important;
+        width: 40px !important;
+    }
+    
+    .login-title {
+        font-size: 1.1rem !important;
+    }
+    
+    .footer {
+        padding: 1rem !important;
+    }
+    
+    .contact {
+        font-size: 1rem !important;
+    }
+    
+    .copyright {
+        font-size: 0.8rem !important;
+    }
+    
+    .social-icon {
+        width: 30px !important;
+        height: 30px !important;
+    }
+    
+    /* Contact Form Small Mobile */
+    .contact-header h1 {
+        font-size: 1.8rem !important;
+    }
+    
+    .contact-form-section,
+    .contact-info-section {
+        padding: 1rem !important;
+        border-radius: 10px !important;
+    }
+    
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        padding: 0.7rem !important;
+        font-size: 0.9rem !important;
+    }
+    
+    /* Login Form Small Mobile */
+    .login-box,
+    .signup-box {
+        padding: 1rem !important;
+        border-radius: 10px !important;
+    }
+    
+    .login-header h1 {
+        font-size: 1.6rem !important;
+    }
+    
+    .form-options {
+        flex-direction: column !important;
+        gap: 1rem !important;
+        align-items: flex-start !important;
+    }
+    
+    .checkbox-label {
+        font-size: 0.8rem !important;
+        line-height: 1.3 !important;
+    }
+}
+
+/* Landscape Phone Orientation */
+@media (max-width: 768px) and (orientation: landscape) {
+    .login-main {
+        padding-top: 1rem !important;
+    }
+    
+    .contact-main {
+        padding: 1rem 0.5rem !important;
+    }
+}
+
+/* Extra Small Devices */
+@media (max-width: 320px) {
+    .header {
+        padding: 0.5rem !important;
+    }
+    
+    .login-title {
+        font-size: 1rem !important;
+    }
+    
+    .footer {
+        padding: 0.8rem !important;
+    }
+    
+    .social-media {
+        gap: 1rem !important;
+    }
+    
+    .contact-header h1 {
+        font-size: 1.5rem !important;
+    }
+    
+    .login-header h1 {
+        font-size: 1.4rem !important;
+    }
+    
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        padding: 0.6rem !important;
+        font-size: 0.85rem !important;
+    }
+    
+    .submit-btn,
+    .login-btn {
+        padding: 0.8rem 1rem !important;
+        font-size: 1rem !important;
     }
 }
