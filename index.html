@@ -3,15 +3,24 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Index</title>
+        <title>Hotel Booking - Find Your Perfect Stay</title>
         <link rel="stylesheet" href="./styles/index.css">
     </head>
     <body>
         <header class="header">
-            <img src="./assests/images/logo.png" alt="Hotel logo" class="logo"/>
-            <h1 class="login-title" onclick="goToLogin()">Login</h1>
-            <input type="text" class="search-input" placeholder="Search" />
+            <img src="./assests/images/logo.png" alt="Hotel logo" class="logo" onclick="goToHome()"/>
+            <h1 class="login-title" onclick="goToLogin()" title="Click to login">Login</h1>
         </header>
+
+        <!-- Hero Section with Centered Search -->
+        <section class="hero-section">
+            <h1 class="hero-title">Find Your Perfect Stay</h1>
+            <p class="hero-subtitle">Discover amazing hotels and destinations across India</p>
+            <div class="hero-search">
+                <input type="text" class="hero-search-input" placeholder="Search hotels, cities, destinations..." />
+            </div>
+        </section>
+
         <main>
             <!-- Destinations Section -->
             <section class="destinations">
@@ -31,7 +40,6 @@
                     <img src="https://media-cdn.tripadvisor.com/media/photo-s/15/33/fe/ac/kolkata-calcutta.jpg" alt="Kolkata">
                     <div class="destination-name">Kolkata</div>
                 </div>
-                <div class="view-more" id="viewMoreBtn" onclick="toggleMoreDestinations()">View More</div>
                 
                 <!-- Hidden additional destinations -->
                 <div class="destination-card hidden-destination" data-city="chennai" onclick="goToCityHotels('chennai')" style="display: none;">
@@ -51,6 +59,11 @@
                     <div class="destination-name">Bengaluru</div>
                 </div>
             </section>
+
+            <!-- View More Button -->
+            <div class="view-more-section">
+                <button class="view-more-btn" id="viewMoreBtn" onclick="toggleMoreDestinations()">View More</button>
+            </div>
 
             <!-- Hotels Section -->
             <section class="hotels-section">
@@ -115,7 +128,7 @@
             </section>
         </main>
         <footer class="footer">
-            <div class="contact" onclick="goToContact()">Contact Us</div>
+            <div class="contact" onclick="goToContact()" title="Contact Us">Contact Us</div>
             <div class="social-media">
                 <img src="./assests/images/facebook.png" alt="facebook" class="social-icon">
                 <img src="./assests/images/instagram.png" alt="instagram" class="social-icon">
@@ -124,7 +137,9 @@
             <div class="copyright">© 2023 Hotel Booking</div>
         </footer>
 
-        <script src="./scripts/index.js"></script>
-        <script src="./scripts/common.js"></script>
+        <!-- ✅ CORRECT SCRIPT ORDER: common.js first, then api-service.js, then page-specific -->
+        <script src="./scripts/common.js" defer></script>
+        <script src="./scripts/api-service.js" defer></script>
+        <script src="./scripts/index.js" defer></script>
     </body>
 </html>
